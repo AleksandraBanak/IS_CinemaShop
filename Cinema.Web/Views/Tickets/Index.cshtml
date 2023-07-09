@@ -1,0 +1,66 @@
+﻿@model Cinema.Domain.SpecialCollectionClass
+
+@{ ViewData["Title"] = "Index";
+   Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="container">
+
+    <div class="col-md-auto text-center">
+        <h1 class="font-weight-normal">Filter tickets by date validity</h1>
+
+    </div>
+    <div>
+        <form class="form-group">
+            <div class="card-body">
+                <div class="row justify-content-center">
+
+                    <div class="col-md-auto">
+                        <label>Starting date:</label>&nbsp;
+                        <input id="fromDate" type="text" asp-for="FromDate" class="datePicker" required />
+                    </div>
+                    <div class="col-md-auto">
+                        <label>Ending date:</label>&nbsp;
+                        <input id="toDate" type="text" asp-for="ToDate" class="datePicker" required />
+                    </div>
+                    <div class="col-md-auto">
+                        <button class="btn btn-info btn-sm" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div id="content">
+            <partial name="_IndexFilter.cshtml" model="Model.SearchResults" />
+        </div>
+
+        @section Scripts{
+            <script>
+        function ApplyDateFilter(e) {
+            e.preventDefault();
+            var from = $("#fromDate").val();
+            var to = $("#toDate").val();
+            var type = $("#searchTypeSelection").val();
+            var text = $("#searchText").val();
+            debugger;
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("IndexFilter", "Archives")',
+                data: ,
+                {
+                    FromDate: from,
+                    ToDate: to,
+                    SearchType: type,
+                    SearchText: text
+                },
+                contentType: "application/json",
+                success: function (response) {
+                    $("#content").html(""); 
+                    $("#content").html(response); 
+                }
+            });
+        }
+            </script>
+        }
+    </div>
+
+</div>
